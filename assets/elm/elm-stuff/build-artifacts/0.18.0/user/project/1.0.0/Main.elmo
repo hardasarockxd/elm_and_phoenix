@@ -1,0 +1,327 @@
+var _user$project$Main$allUsersLi = function (usr) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'NAME: ',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						usr.name,
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							' | ',
+							A2(_elm_lang$core$Basics_ops['++'], 'AGE: ', usr.age))))),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _user$project$Main$toPath = function (page) {
+	var _p0 = page;
+	switch (_p0.ctor) {
+		case 'FirstPage':
+			return '/first_page';
+		case 'SecondPage':
+			return '/second_page';
+		default:
+			return '/';
+	}
+};
+var _user$project$Main$urlUpdate = function (model) {
+	var _p1 = model.page;
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		model,
+		{ctor: '[]'});
+};
+var _user$project$Main$initialModel = function (page) {
+	return {
+		page: page,
+		username: '',
+		userage: '0',
+		users: {
+			ctor: '::',
+			_0: {name: 'Yegor', age: '18'},
+			_1: {
+				ctor: '::',
+				_0: {name: 'Kirill', age: '18'},
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {page: a, users: b, username: c, userage: d};
+	});
+var _user$project$Main$User = F2(
+	function (a, b) {
+		return {name: a, age: b};
+	});
+var _user$project$Main$NoPage = {ctor: 'NoPage'};
+var _user$project$Main$SecondPage = {ctor: 'SecondPage'};
+var _user$project$Main$FirstPage = {ctor: 'FirstPage'};
+var _user$project$Main$matcher = _evancz$url_parser$UrlParser$oneOf(
+	{
+		ctor: '::',
+		_0: A2(
+			_evancz$url_parser$UrlParser$map,
+			_user$project$Main$FirstPage,
+			_evancz$url_parser$UrlParser$s('first_page')),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_evancz$url_parser$UrlParser$map,
+				_user$project$Main$SecondPage,
+				_evancz$url_parser$UrlParser$s('second_page')),
+			_1: {ctor: '[]'}
+		}
+	});
+var _user$project$Main$parser = function (location) {
+	var _p2 = A2(_evancz$url_parser$UrlParser$parsePath, _user$project$Main$matcher, location);
+	if (_p2.ctor === 'Just') {
+		return _p2._0;
+	} else {
+		return _user$project$Main$NoPage;
+	}
+};
+var _user$project$Main$initModel = function (location) {
+	var newModel = _user$project$Main$initialModel(
+		_user$project$Main$parser(location));
+	return _user$project$Main$urlUpdate(newModel);
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p3 = msg;
+		switch (_p3.ctor) {
+			case 'ChangePage':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _elm_lang$navigation$Navigation$newUrl(
+						_user$project$Main$toPath(_p3._0))
+				};
+			case 'UrlChange':
+				var newRoute = _user$project$Main$parser(_p3._0);
+				return _user$project$Main$urlUpdate(
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{page: newRoute}));
+			case 'InputUsername':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{username: _p3._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'InputUserage':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{userage: _p3._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							users: {
+								ctor: '::',
+								_0: {name: model.username, age: model.userage},
+								_1: model.users
+							}
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _user$project$Main$AddUser = {ctor: 'AddUser'};
+var _user$project$Main$InputUserage = function (a) {
+	return {ctor: 'InputUserage', _0: a};
+};
+var _user$project$Main$InputUsername = function (a) {
+	return {ctor: 'InputUsername', _0: a};
+};
+var _user$project$Main$UrlChange = function (a) {
+	return {ctor: 'UrlChange', _0: a};
+};
+var _user$project$Main$ChangePage = function (a) {
+	return {ctor: 'ChangePage', _0: a};
+};
+var _user$project$Main$view = function (model) {
+	var currentPage = function () {
+		var _p4 = model.page;
+		switch (_p4.ctor) {
+			case 'FirstPage':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('USERS'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$ul,
+								{ctor: '[]'},
+								A2(_elm_lang$core$List$map, _user$project$Main$allUsersLi, model.users)),
+							_1: {ctor: '[]'}
+						}
+					});
+			case 'SecondPage':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Add users'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$form,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onSubmit(_user$project$Main$AddUser),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$InputUsername),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('text'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$placeholder('username * '),
+													_1: {ctor: '[]'}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$InputUserage),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('text'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$placeholder('age * '),
+														_1: {ctor: '[]'}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('submit'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value('SUBMIT'),
+														_1: {ctor: '[]'}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
+					});
+			default:
+				return A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'display', _1: 'none'},
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'});
+		}
+	}();
+	return A2(
+		_elm_lang$html$Html$section,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: currentPage,
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Main$ChangePage(_user$project$Main$SecondPage)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Change Page to Page N 2'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Main$ChangePage(_user$project$Main$FirstPage)),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Change Page to Page N 1'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Main$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_user$project$Main$UrlChange,
+	{init: _user$project$Main$initModel, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions, view: _user$project$Main$view})();
